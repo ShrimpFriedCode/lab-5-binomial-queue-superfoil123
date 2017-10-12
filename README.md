@@ -4,8 +4,8 @@ Implement the `isHeap()` method in `BinomialNode` and `BinomialHeap`
 and the `insert()` and `merge()` methods in `BinomialHeap`.
 
 The `isHeap()` method should verify that the tree rooted at the 
-current instance of `BinomialHeap` satisfies the heap property,
-that is, that the key of each parent is greater or equal to
+current instance of `BinomialHeap` satisfies the min heap property,
+that is, that the key of each parent is less or equal to
 the keys of its children.
 
     ~~~~
