@@ -73,6 +73,7 @@ public class StudentTest {
         BinomialQueue<Integer> H = new BinomialQueue<>();
         H.push(1);
         assertTrue(H.isHeap());
+        System.out.println(H);
         assertTrue(H.forest.data.height == 0);
 
     }
@@ -98,6 +99,7 @@ public class StudentTest {
         H.push(2);
         H.push(3);
         H.push(4);
+        System.out.println(H);
         assertTrue(H.isHeap());
         assertTrue(H.forest.data.height == 2);
     }
@@ -162,6 +164,7 @@ public class StudentTest {
     	BinomialQueue<Integer> H2 = new BinomialQueue<>();
       	H2.forest = H2.merge(H0.forest, H1.forest);  	
     	assertTrue(H2.isHeap());
+    	System.out.println(H2);
     	for (Integer x : new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10 })
     		assertEquals(x, H2.extract_min());    	
 	assertTrue(H2.isHeap());

@@ -34,14 +34,39 @@ class BinomialHeap<K extends Comparable<K>> {
         }
     }
 
-    /**
-     * TODO
-     *
-     * The isHeap method checks whether or not the subtree of this node
-     * satisfies the heap property.
-     */
+
     boolean isHeap() {
-	throw new UnsupportedOperationException();
+
+        K val = this.key;
+        boolean ret = true;
+
+        //something with children
+
+        //LN next data
+
+        //ensure val <= all data below it
+        //start with child.data.key
+        //if child.next, child = child.next
+        //continue check
+        ListNode<BinomialHeap<K>> kid = this.children;
+
+        if(kid == null){
+            return ret;
+        }
+
+        do{
+
+            if(kid.data.key.compareTo(val) < 0){//if lower is smaller than root
+                ret = false;
+                kid = kid.next;
+            }
+            else{
+                kid = kid.next;
+            }
+
+        }while(kid != null);
+
+        return ret;
     }
 
     public String toString() {
@@ -62,6 +87,7 @@ public class BinomialQueue<K extends Comparable<K>> {
 
     public void push(K key) {
         this.forest = insert(new BinomialHeap<>(key,0,null), this.forest);
+        this.forest = this.reverse(forest, null);
     }
 
     public K extract_min() {
@@ -135,20 +161,34 @@ public class BinomialQueue<K extends Comparable<K>> {
         }
     }
 
-    /**
-     * TODO
-     * The insert method is analogous to binary addition. That is,
-     * it inserts the node n into the list ns to produce a new list
-     * that is still sorted by height.
-     *
-     * @param n     The node to insert.
-     * @param ns    The binomial forest into which to insert, ordered by height.
-     * @param <K>   The type of the keys.
-     * @return      A new binomial forest that includes the new node.
-     */
+
     static <K extends Comparable<K>> ListNode<BinomialHeap<K>>
     insert(BinomialHeap<K> n, ListNode<BinomialHeap<K>> ns) {
-	throw new UnsupportedOperationException();
+
+        if(ns == null){
+            ns = new ListNode<>(n, null);
+            return ns;
+        }
+
+        //order by heights
+        //first, check if ns and n are same height, if so, link
+        if(ns.data.height == n.height){
+            ns = new ListNode<>(ns.data.link(n), ns.next);
+        }//else, our height must be less than, since we insert one node at a time. We should check the next tree for equal height or null
+        else{
+
+            ns.next = insert(n, ns.next);
+
+        }
+
+        if(ns.next != null) {
+            if (ns.data.height == ns.next.data.height) {
+                ns = new ListNode<>(ns.data.link(ns.next.data), ns.next.next);
+                //ns.data.link(ns.next.data);
+                //ns.next = ns.next.next;
+            }
+        }
+        return ns;
     }
 
     /**
@@ -161,7 +201,37 @@ public class BinomialQueue<K extends Comparable<K>> {
      * @return A list that is sorted and contains all and only the elements in ns1 and ns2.
      */
     ListNode<BinomialHeap<K>> merge(ListNode<BinomialHeap<K>> ns1, ListNode<BinomialHeap<K>> ns2) {
-	throw new UnsupportedOperationException();
+
+        ListNode<BinomialHeap<K>> ns3 = null;
+
+        if(ns1 == null && ns2 == null){
+            return ns3;
+        }
+        else if(ns1 == null){
+            return ns2;
+        }
+        else if(ns2 == null){
+            return ns1;
+        }
+
+        if(ns1.data == null && ns2.data == null){
+            return ns3;
+        }
+        else if(ns1.data == null){
+            return ns2;
+        }
+        else if(ns2.data == null){
+            return ns1;
+        }
+
+        if(ns1.data.height > ns2.data.height){
+            ns3 = new ListNode<>(ns1.data, ns2);
+        }
+        else{
+            ns3 = new ListNode<>(ns2.data, ns1);
+        }
+
+        return ns3;
     }
 
 }
